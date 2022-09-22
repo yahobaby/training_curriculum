@@ -15,7 +15,12 @@ class CalendarsController < ApplicationController
   private
 
   def plan_params
-    params.require(:calendars).permit(:date, :plan)
+    params.require(:plan).permit(:date, :plan)
+    # メモ/20220922
+    # permitメソッドとは、paramsで取得したパラメーターに対し保存の許可処理を行うメソッド
+    # params.require(:モデル名).permit(:キー名)
+    # requireメソッド: パラメーターの中にモデルに対応するキーが存在するかを確認し、存在する場合にそのバリューを返す。
+
   end
 
   def get_week
@@ -34,9 +39,16 @@ class CalendarsController < ApplicationController
       plans.each do |plan|
         today_plans.push(plan.plan) if plan.date == @todays_date + x
       end
-      days = {month: (@todays_date + x).month, date: (@todays_date+x).day, plans: today_plans}
+
+      wday_num = Date.today.wday + x
+      if wday_num >= 7
+        wday_num = wday_num - 7
+      end
+
+
+      days = {month: (@todays_date + x).month, date: (@todays_date+x).day, plans: today_plans, wday: wdays[wday_num]}
+
       @week_days.push(days)
     end
-
   end
 end
