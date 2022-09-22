@@ -15,7 +15,12 @@ class CalendarsController < ApplicationController
   private
 
   def plan_params
-    params.require(:calendars).permit(:date, :plan)
+    params.require(:plan).permit(:date, :plan)
+    # メモ/20220922
+    # permitメソッドとは、paramsで取得したパラメーターに対し保存の許可処理を行うメソッド
+    # params.require(:モデル名).permit(:キー名)
+    # requireメソッド: パラメーターの中にモデルに対応するキーが存在するかを確認し、存在する場合にそのバリューを返す。
+
   end
 
   def getWeek
